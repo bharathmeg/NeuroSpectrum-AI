@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assessment Results - NeuroSpectrum-AI</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #1e40af;
+            --accent-color: #3b82f6;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --light-bg: #f8fafc;
+            --white: #ffffff;
+            --text-dark: #1e293b;
+            --text-light: #64748b;
+            --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-secondary: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --gradient-success: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            --gradient-warning: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            --gradient-danger: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            --shadow-light: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-medium: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            --shadow-heavy: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--light-bg);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        .results-hero {
+            background: var(--gradient-primary);
+            color: white;
+            padding: 3rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .results-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><defs><pattern id="grid" width="50" height="50" patternUnits="userSpaceOnUse"><path d="M 50 0 L 0 0 0 50" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/></pattern></defs><rect width="100%" height="100%" fill="url(%23grid)"/></svg>');
+            opacity: 0.3;
+        }
+
+        .results-hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+        }
+
+        .hero-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .hero-subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .results-container {
+            max-width: 1200px;
+            margin: -2rem auto 3rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .results-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: var(--shadow-heavy);
+            overflow: hidden;
+            margin-bottom: 2rem;
+        }
+
+        .card-header {
+            padding: 2rem;
+            background: var(--gradient-primary);
+            color: white;
+            text-align: center;
+            position: relative;
+        }
+
+        .card-header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 20px;
+            background: white;
+            border-radius: 20px 20px 0 0;
+        }
+
+        .card-header h2 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .header-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .card-body {
+            padding: 2.5rem;
+        }
+
+        .profile-section {
+            margin-bottom: 3rem;
+        }
+
+        .profile-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .profile-item {
+            background: var(--light-bg);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .profile-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient-primary);
+        }
+
+        .profile-item:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .profile-label {
+            font-weight: 600;
+            color: var(--text-dark);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.5rem;
+        }
+
+        .profile-value {
+            font-size: 1.1rem;
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .prediction-section {
+            background: white;
+            border-radius: 20px;
+            box-shadow: var(--shadow-medium);
+            padding: 3rem;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .section-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.8rem;
+            color: var(--text-dark);
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            text-align: center;
+            justify-content: center;
+        }
+
+        .section-icon {
+            width: 45px;
+            height: 45px;
+            background: var(--gradient-primary);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.3rem;
+        }
+
+        .result-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .result-card {
+            background: var(--light-bg);
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .result-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, transparent 0%, rgba(37, 99, 235, 0.05) 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .result-card:hover::before {
+            opacity: 1;
+        }
+
+        .result-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-heavy);
+        }
+
+        .result-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            color: white;
+            font-size: 2rem;
+        }
+
+        .status-positive .result-icon {
+            background: var(--gradient-danger);
+        }
+
+        .status-negative .result-icon {
+            background: var(--gradient-success);
+        }
+
+        .risk-high .result-icon {
+            background: var(--gradient-danger);
+        }
+
+        .risk-medium .result-icon {
+            background: var(--gradient-warning);
+        }
+
+        .risk-low .result-icon {
+            background: var(--gradient-success);
+        }
+
+        .result-label {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-light);
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .result-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 1rem;
+        }
+
+        .result-description {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            line-height: 1.5;
+        }
+
+        .confidence-chart-container {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 2rem 0;
+            box-shadow: var(--shadow-light);
+            text-align: center;
+        }
+
+        .precautions-section {
+            background: white;
+            border-radius: 20px;
+            box-shadow: var(--shadow-medium);
+            padding: 3rem;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .precautions-list {
+            list-style: none;
+            padding: 0;
+            margin-top: 2rem;
+        }
+
+        .precaution-item {
+            background: var(--light-bg);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            border-left: 4px solid var(--primary-color);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .precaution-item:hover {
+            transform: translateX(5px);
+            box-shadow: var(--shadow-light);
+        }
+
+        .precaution-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--gradient-primary);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.1rem;
+            float: left;
+            margin-right: 1rem;
+            margin-top: 0.2rem;
+        }
+
+        .precaution-text {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: var(--text-dark);
+            overflow: hidden;
+        }
+
+        .disclaimer-section {
+            background: rgba(239, 68, 68, 0.05);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-top: 3rem;
+        }
+
+        .disclaimer-title {
+            color: var(--danger-color);
+            font-weight: 700;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .disclaimer-text {
+            color: var(--text-dark);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 0;
+        }
+
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-action {
+            padding: 12px 30px;
+            font-weight: 600;
+            border-radius: 50px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: var(--shadow-light);
+        }
+
+        .btn-primary-action {
+            background: var(--gradient-primary);
+            color: white;
+        }
+
+        .btn-secondary-action {
+            background: white;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+        }
+
+        .btn-action:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-heavy);
+            color: inherit;
+        }
+
+        .floating-shapes {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .shape {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(37, 99, 235, 0.03);
+            animation: float 10s ease-in-out infinite;
+        }
+
+        .shape:nth-child(1) {
+            width: 100px;
+            height: 100px;
+            top: 20%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .shape:nth-child(2) {
+            width: 150px;
+            height: 150px;
+            top: 60%;
+            right: 15%;
+            animation-delay: 4s;
+        }
+
+        .shape:nth-child(3) {
+            width: 80px;
+            height: 80px;
+            bottom: 30%;
+            left: 20%;
+            animation-delay: 8s;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px) rotate(0deg);
+            }
+            33% {
+                transform: translateY(-20px) rotate(120deg);
+            }
+            66% {
+                transform: translateY(20px) rotate(240deg);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+            
+            .results-container {
+                margin: -1rem 1rem 2rem;
+            }
+            
+            .card-body, .prediction-section, .precautions-section {
+                padding: 2rem 1.5rem;
+            }
+            
+            .result-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn-action {
+                width: 100%;
+                max-width: 300px;
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .profile-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .precaution-icon {
+                float: none;
+                margin: 0 auto 1rem;
+            }
+            
+            .precaution-text {
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="floating-shapes">
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+
+    {% include 'navbar.html' %}
+
+    <!-- Hero Section -->
+    <div class="results-hero">
+        <div class="container results-hero-content">
+            <h1 class="hero-title">
+                <i class="fas fa-chart-line me-3"></i>
+                Assessment Results
+            </h1>
+            <p class="hero-subtitle">
+                Comprehensive autism spectrum analysis and personalized recommendations
+            </p>
+        </div>
+    </div>
+
+    <!-- Results Container -->
+    <div class="container results-container">
+        
+        <!-- Person Profile Card -->
+        <div class="results-card">
+            <div class="card-header">
+                <h2>
+                    <div class="header-icon">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    Individual Profile Summary
+                </h2>
+                <p style="opacity: 0.9; margin-bottom: 0;">Assessment data and personal information overview</p>
+            </div>
+            <div class="card-body">
+                <div class="profile-grid">
+                    {% for item in profile %}
+                    <div class="profile-item">
+                        <div class="profile-label">Assessment Data</div>
+                        <div class="profile-value">{{ item }}</div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Prediction Results Section -->
+        <div class="prediction-section">
+            <h2 class="section-title">
+                <div class="section-icon">
+                    <i class="fas fa-brain"></i>
+                </div>
+                AI Analysis Results
+            </h2>
+
+            <div class="result-grid">
+                <!-- Autism Status Card -->
+                <div class="result-card status-{{ 'positive' if 'Positive' in status else 'negative' }}">
+                    <div class="result-icon">
+                        <i class="fas {{ 'fa-exclamation-triangle' if 'Positive' in status else 'fa-check-circle' }}"></i>
+                    </div>
+                    <div class="result-label">Autism Status</div>
+                    <div class="result-value">{{ status }}</div>
+                    <div class="result-description">
+                        {% if 'Positive' in status %}
+                        Assessment indicates potential autism spectrum characteristics. Professional consultation recommended.
+                        {% else %}
+                        Assessment suggests minimal autism spectrum indicators. Continue monitoring development.
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Risk Level Card -->
+                <div class="result-card risk-{{ risk.lower() if risk else 'unknown' }}">
+                    <div class="result-icon">
+                        <i class="fas {{ 'fa-exclamation-circle' if risk == 'High' else ('fa-exclamation-triangle' if risk == 'Medium' else 'fa-shield-alt') }}"></i>
+                    </div>
+                    <div class="result-label">Risk Assessment</div>
+                    <div class="result-value">{{ risk }} Risk</div>
+                    <div class="result-description">
+                        {% if risk == 'High' %}
+                        Elevated risk indicators present. Immediate professional evaluation recommended.
+                        {% elif risk == 'Medium' %}
+                        Moderate risk factors identified. Consider professional assessment.
+                        {% else %}
+                        Low risk profile. Continue routine developmental monitoring.
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Confidence Score Card -->
+                <div class="result-card">
+                    <div class="result-icon" style="background: var(--gradient-primary);">
+                        <i class="fas fa-percentage"></i>
+                    </div>
+                    <div class="result-label">Confidence Score</div>
+                    <div class="result-value">{{ confidence }}%</div>
+                    <div class="result-description">
+                        Statistical confidence level of the AI assessment based on input parameters and model accuracy.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Confidence Chart -->
+            <div class="confidence-chart-container">
+                <h4 style="margin-bottom: 1.5rem; color: var(--text-dark);">
+                    <i class="fas fa-chart-pie me-2"></i>
+                    Assessment Confidence Visualization
+                </h4>
+                <div style="max-width: 400px; margin: 0 auto;">
+                    <canvas id="confidenceChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Precautions Section -->
+        <div class="precautions-section">
+            <h2 class="section-title">
+                <div class="section-icon">
+                    <i class="fas fa-clipboard-list"></i>
+                </div>
+                Personalized Recommendations
+            </h2>
+
+            <ul class="precautions-list">
+                {% for item in precautions %}
+                <li class="precaution-item">
+                    <div class="precaution-icon">
+                        <i class="fas fa-lightbulb"></i>
+                    </div>
+                    <div class="precaution-text">{{ item }}</div>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="action-buttons">
+            <a href="/predict" class="btn-action btn-secondary-action">
+                <i class="fas fa-redo"></i>
+                Take New Assessment
+            </a>
+            <a href="#" class="btn-action btn-primary-action" onclick="window.print()">
+                <i class="fas fa-download"></i>
+                Download Report
+            </a>
+        </div>
+
+        <!-- Disclaimer Section -->
+        <div class="disclaimer-section">
+            <h4 class="disclaimer-title">
+                <i class="fas fa-info-circle"></i>
+                Important Medical Disclaimer
+            </h4>
+            <p class="disclaimer-text">
+                <strong>This assessment is a screening tool only and does not constitute a medical diagnosis.</strong> 
+                The results are generated based on statistical analysis and machine learning algorithms trained on autism spectrum data. 
+                These recommendations are intended for early guidance and awareness purposes only. 
+                For accurate diagnosis, comprehensive evaluation, and treatment planning, please consult with qualified healthcare professionals, 
+                including developmental pediatricians, child psychologists, or autism specialists. 
+                Early intervention and professional support can significantly improve outcomes for individuals on the autism spectrum.
+            </p>
+        </div>
+    </div>
+
+    {% include 'footer.html' %}
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Create confidence chart
+        const ctx = document.getElementById('confidenceChart').getContext('2d');
+        const confidence = {{ confidence }};
+        
+        const confidenceChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Confidence', 'Uncertainty'],
+                datasets: [{
+                    data: [confidence, 100 - confidence],
+                    backgroundColor: [
+                        'rgba(102, 126, 234, 0.8)',
+                        'rgba(226, 232, 240, 0.8)'
+                    ],
+                    borderColor: [
+                        'rgba(102, 126, 234, 1)',
+                        'rgba(226, 232, 240, 1)'
+                    ],
+                    borderWidth: 2,
+                    cutout: '70%'
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return context.label + ': ' + context.parsed + '%';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Add confidence percentage in center
+        const centerText = {
+            id: 'centerText',
+            beforeDatasetsDraw: function(chart) {
+                const { ctx } = chart;
+                ctx.save();
+                const x = chart.getDatasetMeta(0).data[0].x;
+                const y = chart.getDatasetMeta(0).data[0].y;
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.font = 'bold 24px Inter';
+                ctx.fillStyle = '#1e293b';
+                ctx.fillText(confidence + '%', x, y);
+                ctx.font = '12px Inter';
+                ctx.fillStyle = '#64748b';
+                ctx.fillText('Confidence', x, y + 20);
+                ctx.restore();
+            }
+        };
+        
+        confidenceChart.options.plugins.centerText = centerText;
+        Chart.register(centerText);
+
+        // Animate elements on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all major sections
+        document.querySelectorAll('.results-card, .prediction-section, .precautions-section').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'all 0.6s ease';
+            observer.observe(el);
+        });
+
+        // Add print styles
+        const printStyles = `
+            @media print {
+                .navbar, .footer, .btn-action, .floating-shapes { display: none !important; }
+                .results-hero { print-color-adjust: exact; }
+                .results-container { margin-top: 0 !important; }
+                body { background: white !important; }
+                .results-card, .prediction-section, .precautions-section {
+                    box-shadow: none !important;
+                    border: 1px solid #ddd !important;
+                    page-break-inside: avoid;
+                    margin-bottom: 1rem !important;
+                }
+            }
+        `;
+        
+        const styleSheet = document.createElement('style');
+        styleSheet.textContent = printStyles;
+        document.head.appendChild(styleSheet);
+
+        // Smooth scroll for internal links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

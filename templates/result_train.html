@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Model Training Result</title>
+</head>
+
+<body class="bg-primary">
+    {% include 'navbar.html' %}
+
+    <div class="container-fluid p-4">
+        <div class="row container-flex gap-3">
+            <div class="col-md-5 p-3 bg-danger-subtle rounded">
+                <h3 class="text-center">Autism Disorder Prediction Models</h3>
+                <table class="table table-danger table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Algorithm</th>
+                            <th scope="col">Accuracy</th>
+                            <th scope="col">Precision</th>
+                            <th scope="col">Recall</th>
+                            <th scope="col">f1-score</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">1</th>
+                            <td>Logistic Regression</td>
+                            <td>71.57%</td>
+                            <td>0.71</td>
+                            <td>0.71</td>
+                            <td>0.71</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">2</th>
+                            <td>GuassianNB</td>
+                            <td>64.47%</td>
+                            <td>0.64</td>
+                            <td>0.64</td>
+                            <td>0.64</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">3</th>
+                            <td>SVC</td>
+                            <td>64.47%</td>
+                            <td>0.70</td>
+                            <td>0.62</td>
+                            <td>0.59</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">5</th>
+                            <td>DecisionTree Classifier</td>
+                            <td>92.39%</td>
+                            <td>0.92</td>
+                            <td>0.92</td>
+                            <td>0.92</td>
+                        </tr>
+                        <tr class="table-active">
+                            <th scope="row">6</th>
+                            <td>RandomForest Classifier</td>
+                            <td>94.42%</td>
+                            <td>0.95</td>
+                            <td>0.94</td>
+                            <td>0.94</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    {% include 'footer.html' %}
+
+</body>
+
+</html>

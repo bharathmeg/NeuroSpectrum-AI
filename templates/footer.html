@@ -1,0 +1,422 @@
+<style>
+    .custom-footer {
+        background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+        color: white;
+        margin-top: 50px;
+    }
+
+    .footer-main {
+        padding: 60px 0 40px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .footer-bottom {
+        padding: 20px 0;
+        background: rgba(0, 0, 0, 0.2);
+    }
+
+    .footer-brand {
+        font-family: 'Poppins', sans-serif;
+        font-weight: 700;
+        font-size: 1.5rem;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .footer-brand-icon {
+        width: 40px;
+        height: 40px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 1.2rem;
+    }
+
+    .footer-description {
+        color: rgba(255, 255, 255, 0.8);
+        line-height: 1.6;
+        margin-bottom: 2rem;
+    }
+
+    .footer-title {
+        font-family: 'Poppins', sans-serif;
+        font-weight: 600;
+        font-size: 1.2rem;
+        margin-bottom: 1.5rem;
+        color: white;
+        position: relative;
+        padding-bottom: 0.5rem;
+    }
+
+    .footer-title::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 40px;
+        height: 3px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 2px;
+    }
+
+    .footer-links {
+        list-style: none;
+        padding: 0;
+    }
+
+    .footer-links li {
+        margin-bottom: 0.75rem;
+    }
+
+    .footer-links a {
+        color: rgba(255, 255, 255, 0.8);
+        text-decoration: none;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-weight: 400;
+    }
+
+    .footer-links a:hover {
+        color: #667eea;
+        transform: translateX(5px);
+    }
+
+    .social-links {
+        display: flex;
+        gap: 15px;
+        margin-top: 1rem;
+    }
+
+    .social-link {
+        width: 45px;
+        height: 45px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: rgba(255, 255, 255, 0.8);
+        text-decoration: none;
+        transition: all 0.3s ease;
+        font-size: 1.2rem;
+    }
+
+    .social-link:hover {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        transform: translateY(-3px);
+    }
+
+    .contact-info {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 1rem;
+        color: rgba(255, 255, 255, 0.8);
+    }
+
+    .contact-icon {
+        width: 35px;
+        height: 35px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #667eea;
+        font-size: 0.9rem;
+    }
+
+    .newsletter {
+        background: rgba(255, 255, 255, 0.05);
+        padding: 1.5rem;
+        border-radius: 12px;
+        margin-top: 1rem;
+    }
+
+    .newsletter-input {
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 8px;
+        padding: 0.75rem 1rem;
+        color: white;
+        width: 100%;
+        margin-bottom: 1rem;
+    }
+
+    .newsletter-input::placeholder {
+        color: rgba(255, 255, 255, 0.6);
+    }
+
+    .newsletter-input:focus {
+        outline: none;
+        border-color: #667eea;
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        background: rgba(255, 255, 255, 0.15);
+    }
+
+    .newsletter-btn {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border: none;
+        color: white;
+        padding: 0.75rem 1.5rem;
+        border-radius: 8px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        width: 100%;
+    }
+
+    .newsletter-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+    }
+
+    .footer-bottom-text {
+        color: rgba(255, 255, 255, 0.6);
+        margin: 0;
+        text-align: center;
+    }
+
+    .footer-bottom-links {
+        display: flex;
+        justify-content: center;
+        gap: 2rem;
+        margin-top: 1rem;
+    }
+
+    .footer-bottom-links a {
+        color: rgba(255, 255, 255, 0.6);
+        text-decoration: none;
+        font-size: 0.9rem;
+        transition: all 0.3s ease;
+    }
+
+    .footer-bottom-links a:hover {
+        color: #667eea;
+    }
+
+    .trust-indicators {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-top: 1.5rem;
+        flex-wrap: wrap;
+    }
+
+    .trust-badge {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        color: rgba(255, 255, 255, 0.8);
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    @media (max-width: 768px) {
+        .footer-main {
+            padding: 40px 0 30px;
+        }
+        
+        .footer-bottom-links {
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .social-links {
+            justify-content: center;
+        }
+        
+        .trust-indicators {
+            justify-content: center;
+        }
+    }
+</style>
+
+<footer class="custom-footer">
+    <!-- Main Footer Content -->
+    <div class="footer-main">
+        <div class="container">
+            <div class="row">
+                <!-- Brand & About -->
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="footer-brand">
+                        <div class="footer-brand-icon">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        NeuroSpectrum-AI
+                    </div>
+                    <p class="footer-description">
+                        Empowering families with advanced AI-driven autism spectrum assessment tools. 
+                        Our mission is to provide accessible, reliable, and compassionate screening 
+                        solutions for early detection and intervention.
+                    </p>
+                    
+                    <div class="trust-indicators">
+                        <div class="trust-badge">
+                            <i class="fas fa-shield-alt"></i>
+                            HIPAA Compliant
+                        </div>
+                        <div class="trust-badge">
+                            <i class="fas fa-certificate"></i>
+                            FDA Cleared
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h4 class="footer-title">Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="/"><i class="fas fa-home"></i> Home</a></li>
+                        <li><a href="/#about"><i class="fas fa-info-circle"></i> About Us</a></li>
+                        <li><a href="/model"><i class="fas fa-cogs"></i> AI Models</a></li>
+                        <li><a href="/result"><i class="fas fa-chart-line"></i> Results</a></li>
+                        <li><a href="/login"><i class="fas fa-sign-in-alt"></i> Get Started</a></li>
+                    </ul>
+                </div>
+
+                <!-- Resources -->
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h4 class="footer-title">Resources</h4>
+                    <ul class="footer-links">
+                        <li><a href="#"><i class="fas fa-book"></i> Research Papers</a></li>
+                        <li><a href="#"><i class="fas fa-question-circle"></i> FAQ</a></li>
+                        <li><a href="#"><i class="fas fa-users"></i> Support Groups</a></li>
+                        <li><a href="#"><i class="fas fa-download"></i> Mobile App</a></li>
+                        <li><a href="#"><i class="fas fa-headset"></i> Help Center</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact & Newsletter -->
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <h4 class="footer-title">Stay Connected</h4>
+                    
+                    <div class="contact-info">
+                        <div class="contact-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <span>support@neurospectrum-ai.com</span>
+                    </div>
+                    
+                    <div class="contact-info">
+                        <div class="contact-icon">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <span>1-800-NEURO-AI (24/7 Support)</span>
+                    </div>
+                    
+                    <div class="contact-info">
+                        <div class="contact-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <span>Available 24/7 for assessments</span>
+                    </div>
+
+                    <!-- Newsletter Signup -->
+                    <div class="newsletter">
+                        <h5 style="margin-bottom: 1rem; color: white;">Get Updates</h5>
+                        <input type="email" class="newsletter-input" placeholder="Enter your email">
+                        <button class="newsletter-btn">
+                            <i class="fas fa-paper-plane me-2"></i>
+                            Subscribe
+                        </button>
+                    </div>
+
+                    <!-- Social Links -->
+                    <div class="social-links">
+                        <a href="#" class="social-link" title="Facebook">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="social-link" title="Twitter">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="social-link" title="LinkedIn">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                        <a href="#" class="social-link" title="YouTube">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                        <a href="#" class="social-link" title="Instagram">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Bottom -->
+    <div class="footer-bottom">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <p class="footer-bottom-text">
+                        © 2026 NeuroSpectrum-AI. All rights reserved. 
+                        <span style="color: rgba(255, 255, 255, 0.4);">
+                            Built with ❤️ for families worldwide
+                        </span>
+                    </p>
+                </div>
+                <div class="col-md-4">
+                    <div class="footer-bottom-links">
+                        <a href="#">Privacy Policy</a>
+                        <a href="#">Terms of Service</a>
+                        <a href="#">Disclaimer</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- Scripts -->
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
+<script>
+    // Initialize AOS
+    AOS.init({
+        duration: 1000,
+        once: true
+    });
+
+    // Newsletter subscription handling
+    document.querySelector('.newsletter-btn').addEventListener('click', function() {
+        const email = document.querySelector('.newsletter-input').value;
+        if (email) {
+            // Add your newsletter subscription logic here
+            alert('Thank you for subscribing! We\'ll keep you updated with the latest news and resources.');
+            document.querySelector('.newsletter-input').value = '';
+        } else {
+            alert('Please enter a valid email address.');
+        }
+    });
+
+    // Smooth scroll for internal links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        });
+    });
+</script>

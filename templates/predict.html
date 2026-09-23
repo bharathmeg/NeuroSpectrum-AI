@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Autism Spectrum Assessment - NeuroSpectrum-AI</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #1e40af;
+            --accent-color: #3b82f6;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --light-bg: #f8fafc;
+            --white: #ffffff;
+            --text-dark: #1e293b;
+            --text-light: #64748b;
+            --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-secondary: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --shadow-light: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-medium: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            --shadow-heavy: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--light-bg);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        .assessment-hero {
+            background: var(--gradient-primary);
+            color: white;
+            padding: 3rem 0;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .assessment-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><defs><pattern id="grid" width="50" height="50" patternUnits="userSpaceOnUse"><path d="M 50 0 L 0 0 0 50" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/></pattern></defs><rect width="100%" height="100%" fill="url(%23grid)"/></svg>');
+            opacity: 0.3;
+        }
+
+        .assessment-hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+        }
+
+        .hero-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 0;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .assessment-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: var(--shadow-heavy);
+            padding: 3rem;
+            margin-bottom: 3rem;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .assessment-intro {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background: rgba(37, 99, 235, 0.05);
+            border-radius: 15px;
+            border: 1px solid rgba(37, 99, 235, 0.1);
+        }
+
+        .assessment-intro h2 {
+            font-family: 'Poppins', sans-serif;
+            color: var(--primary-color);
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .intro-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--gradient-primary);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .progress-container {
+            margin-bottom: 2rem;
+            background: var(--light-bg);
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .progress-title {
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text-dark);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .progress {
+            height: 10px;
+            border-radius: 10px;
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        .progress-bar {
+            border-radius: 10px;
+            background: var(--gradient-primary);
+            transition: width 0.3s ease;
+        }
+
+        .section-divider {
+            display: flex;
+            align-items: center;
+            margin: 3rem 0 2rem;
+            text-align: center;
+        }
+
+        .section-divider::before,
+        .section-divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(to right, transparent, rgba(37, 99, 235, 0.3), transparent);
+        }
+
+        .section-title {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin: 0 2rem;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-icon {
+            width: 35px;
+            height: 35px;
+            background: var(--gradient-primary);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1rem;
+        }
+
+        .form-group {
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1rem;
+        }
+
+        .label-icon {
+            width: 25px;
+            height: 25px;
+            background: rgba(37, 99, 235, 0.1);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-color);
+            font-size: 0.8rem;
+        }
+
+        .form-control, .form-select {
+            border: 2px solid rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            padding: 15px 20px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: var(--light-bg);
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+            background: white;
+            transform: translateY(-1px);
+        }
+
+        .form-control::placeholder {
+            color: var(--text-light);
+            font-style: italic;
+        }
+
+        .input-help {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            margin-top: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .required-indicator {
+            color: var(--danger-color);
+            font-weight: bold;
+            margin-left: 3px;
+        }
+
+        .btn-predict {
+            background: var(--gradient-secondary);
+            border: none;
+            color: white;
+            padding: 18px 50px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            border-radius: 50px;
+            box-shadow: var(--shadow-medium);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-predict::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn-predict:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-heavy);
+            color: white;
+        }
+
+        .btn-predict:hover::before {
+            left: 100%;
+        }
+
+        .btn-predict:active {
+            transform: translateY(0);
+        }
+
+        .assessment-footer {
+            background: rgba(37, 99, 235, 0.05);
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            margin-top: 3rem;
+            border: 1px solid rgba(37, 99, 235, 0.1);
+        }
+
+        .disclaimer {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            line-height: 1.5;
+        }
+
+        .disclaimer strong {
+            color: var(--text-dark);
+        }
+
+        .floating-shapes {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .shape {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(37, 99, 235, 0.05);
+            animation: float 8s ease-in-out infinite;
+        }
+
+        .shape:nth-child(1) {
+            width: 80px;
+            height: 80px;
+            top: 20%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .shape:nth-child(2) {
+            width: 120px;
+            height: 120px;
+            top: 60%;
+            right: 15%;
+            animation-delay: 3s;
+        }
+
+        .shape:nth-child(3) {
+            width: 60px;
+            height: 60px;
+            bottom: 30%;
+            left: 20%;
+            animation-delay: 6s;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px) rotate(0deg);
+            }
+            33% {
+                transform: translateY(-15px) rotate(120deg);
+            }
+            66% {
+                transform: translateY(15px) rotate(240deg);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+            
+            .assessment-container {
+                padding: 2rem 1.5rem;
+                margin: 1rem;
+            }
+            
+            .assessment-intro {
+                padding: 1.5rem;
+            }
+            
+            .section-title {
+                font-size: 1.1rem;
+                margin: 0 1rem;
+            }
+            
+            .btn-predict {
+                padding: 15px 40px;
+                font-size: 1.1rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .assessment-hero {
+                padding: 2rem 0;
+            }
+            
+            .hero-title {
+                font-size: 1.7rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1rem;
+            }
+            
+            .assessment-container {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="floating-shapes">
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+
+    {% include 'navbar.html' %}
+
+    <!-- Hero Section -->
+    <div class="assessment-hero">
+        <div class="container assessment-hero-content">
+            <h1 class="hero-title">
+                <i class="fas fa-clipboard-check me-3"></i>
+                Autism Spectrum Assessment
+            </h1>
+            <p class="hero-subtitle">
+                Complete this comprehensive assessment to receive personalized insights and recommendations for autism spectrum evaluation
+            </p>
+        </div>
+    </div>
+
+    <!-- Main Assessment Container -->
+    <div class="container">
+        <div class="assessment-container">
+            <!-- Introduction -->
+            <div class="assessment-intro">
+                <h2>
+                    <div class="intro-icon">
+                        <i class="fas fa-info-circle"></i>
+                    </div>
+                    Assessment Guidelines
+                </h2>
+                <p class="mb-3">Please answer all questions honestly and to the best of your knowledge. This assessment typically takes 5-10 minutes to complete and covers various developmental and behavioral aspects.</p>
+                <p class="mb-0"><strong>Note:</strong> This is a screening tool and should not replace professional medical advice.</p>
+            </div>
+
+            <!-- Progress Bar -->
+            <div class="progress-container">
+                <div class="progress-title">
+                    <i class="fas fa-tasks"></i>
+                    Assessment Progress
+                </div>
+                <div class="progress">
+                    <div class="progress-bar" role="progressbar" id="progressBar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+                <div class="mt-2">
+                    <small class="text-muted">
+                        <span id="progressText">0 of 13 questions completed</span>
+                    </small>
+                </div>
+            </div>
+
+            <!-- Assessment Form -->
+            <form action="/output" method="post" id="assessmentForm" novalidate>
+                
+                <!-- Basic Information Section -->
+                <div class="section-divider">
+                    <div class="section-title">
+                        <div class="section-icon">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        Basic Information
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="Age" class="form-label">
+                                <div class="label-icon">
+                                    <i class="fas fa-calendar"></i>
+                                </div>
+                                Age<span class="required-indicator">*</span>
+                            </label>
+                            <input type="number" name="Age" id="Age" class="form-control" placeholder="Enter age in years" min="1" max="100" required>
+                            <div class="input-help">
+                                <i class="fas fa-lightbulb"></i>
+                                Please enter the current age of the individual being assessed
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="Gender" class="form-label">
+                                <div class="label-icon">
+                                    <i class="fas fa-venus-mars"></i>
+                                </div>
+                                Gender<span class="required-indicator">*</span>
+                            </label>
+                            <select name="Gender" id="Gender" class="form-select" required>
+                                <option value="">Select Gender</option>
+                                <option value="0">Female</option>
+                                <option value="1">Male</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Assessment Scores Section -->
+                <div class="section-divider">
+                    <div class="section-title">
+                        <div class="section-icon">
+                            <i class="fas fa-chart-bar"></i>
+                        </div>
+                        Assessment Scores
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="Social_Responsiveness_Scale" class="form-label">
+                                <div class="label-icon">
+                                    <i class="fas fa-users"></i>
+                                </div>
+                                Social Responsiveness Scale<span class="required-indicator">*</span>
+                            </label>
+                            <input type="number" name="Social_Responsiveness_Scale" id="Social_Responsiveness_Scale" 
+                                   class="form-control" placeholder="Rate from 1-10" min="1" max="10" required>
+                            <div class="input-help">
+                                <i class="fas fa-lightbulb"></i>
+                                1 = Very Low, 10 = Very High social responsiveness
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="Autism_Score" class="form-label">
+                                <div class="label-icon">
+                                    <i class="fas fa-brain"></i>
+                                </div>
+                                Autism Behavioral Score<span class="required-indicator">*</span>
+                            </label>
+                            <input type="number" name="Autism_Score" id="Autism_Score" 
+                                   class="form-control" placeholder="Rate from 1-10" min="1" max="10" required>
+                            <div class="input-help">
+                                <i class="fas fa-lightbulb"></i>
+                                1 = Minimal behaviors, 10 = Significant autism-related behaviors
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Medical History Section -->
+                <div class="section-divider">
+                    <div class="section-title">
+                        <div class="section-icon">
+                            <i class="fas fa-heartbeat"></i>
+                        </div>
+                        Medical & Developmental History
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="Speech_Disorder" class="form-label">
+                                <div class="label-icon">
+                                    <i class="fas fa-comment"></i>
+                                </div>
+                                Speech Disorder<span class="required-indicator">*</span>
+                            </label>
+                            <select name="Speech_Disorder" id="Speech_Disorder" class="form-select" required>
+                                <option value="">Select Option</option>
+                                <option value="0">No</option>
+                                <option value="1">Yes</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="Learning_Disorder" class="form-label">
+                                <div class="label-icon">
+                                    <i class="fas fa-book"></i>
+                                </div>
+                                Learning Disorder<span class="required-indicator">*</span>
+                            </label>
+                            <select name="Learning_Disorder" id="Learning_Disorder" class="form-select" required>
+                                <option value="">Select Option</option>
+                                <option value="0">No</option>
+                                <option value="1">Yes</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="Intellectual_Disability" class="form-label">
+                                <div class="label-icon">
+                                    <i class="fas fa-brain"></i>
+                                </div>
+                                Intellectual Disability<span class="required-indicator">*</span>
+                            </label>
+                            <select name="Intellectual_Disability" id="Intellectual_Disability" class="form-select" required>
+                                <option value="">Select Option</option>
+                                <option value="0">No</option>
+                                <option value="1">Yes</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="Genetic_Disorders" class="form-label">
+                                <div class="label-icon">
+                                    <i class="fas fa-dna"></i>
+                                </div>
+                                Genetic Disorders<span class="required-indicator">*</span>
+                            </label>
+                            <select name="Genetic_Disorders" id="Genetic_Disorders" class="form-select" required>
+                                <option value="">Select Option</option>
+                                <option value="0">No</option>
+                                <option value="1">Yes</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="Jaundice" class="form-label">
+                                <div class="label-icon">
+                                    <i class="fas fa-baby"></i>
+                                </div>
+                                Jaundice at Birth<span class="required-indicator">*</span>
+                            </label>
+                            <select name="Jaundice" id="Jaundice" class="form-select" required>
+                                <option value="">Select Option</option>
+                                <option value="0">No</option>
+                                <option value="1">Yes</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mental Health Section -->
+                <div class="section-divider">
+                    <div class="section-title">
+                        <div class="section-icon">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        Mental Health & Behavioral Factors
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="Depression" class="form-label">
+                                <div class="label-icon">
+                                    <i class="fas fa-frown"></i>
+                                </div>
+                                Depression<span class="required-indicator">*</span>
+                            </label>
+                            <select name="Depression" id="Depression" class="form-select" required>
+                                <option value="">Select Option</option>
+                                <option value="0">No</option>
+                                <option value="1">Yes</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="Anxiety_Disorders" class="form-label">
+                                <div class="label-icon">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                </div>
+                                Anxiety Disorders<span class="required-indicator">*</span>
+                            </label>
+                            <select name="Anxiety_Disorders" id="Anxiety_Disorders" class="form-select" required>
+                                <option value="">Select Option</option>
+                                <option value="0">No</option>
+                                <option value="1">Yes</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="Social/Behavioural_Issues" class="form-label">
+                                <div class="label-icon">
+                                    <i class="fas fa-user-friends"></i>
+                                </div>
+                                Social/Behavioral Issues<span class="required-indicator">*</span>
+                            </label>
+                            <select name="Social/Behavioural_Issues" id="Social/Behavioural_Issues" class="form-select" required>
+                                <option value="">Select Option</option>
+                                <option value="0">No</option>
+                                <option value="1">Yes</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Family History Section -->
+                <div class="section-divider">
+                    <div class="section-title">
+                        <div class="section-icon">
+                            <i class="fas fa-home"></i>
+                        </div>
+                        Family History
+                    </div>
+                </div>
+
+                <div class="row justify-content-center">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="Family_Member_with_ASD" class="form-label">
+                                <div class="label-icon">
+                                    <i class="fas fa-users"></i>
+                                </div>
+                                Family Member with ASD<span class="required-indicator">*</span>
+                            </label>
+                            <select name="Family_Member_with_ASD" id="Family_Member_with_ASD" class="form-select" required>
+                                <option value="">Select Option</option>
+                                <option value="0">No</option>
+                                <option value="1">Yes</option>
+                            </select>
+                            <div class="input-help">
+                                <i class="fas fa-lightbulb"></i>
+                                Any immediate family member diagnosed with Autism Spectrum Disorder
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="text-center mt-5">
+                    <button type="submit" class="btn-predict" id="submitBtn">
+                        <i class="fas fa-brain me-2"></i>
+                        Generate Assessment Report
+                        <i class="fas fa-arrow-right ms-2"></i>
+                    </button>
+                </div>
+
+                <!-- Assessment Footer -->
+                <div class="assessment-footer">
+                    <div class="disclaimer">
+                        <strong>Important Disclaimer:</strong> This assessment is a screening tool designed to identify potential indicators of autism spectrum characteristics. Results should be discussed with qualified healthcare professionals for proper evaluation and diagnosis. This tool is not intended to replace professional medical advice, diagnosis, or treatment.
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    {% include 'footer.html' %}
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Progress tracking
+        const form = document.getElementById('assessmentForm');
+        const progressBar = document.getElementById('progressBar');
+        const progressText = document.getElementById('progressText');
+        const totalFields = form.querySelectorAll('input[required], select[required]').length;
+
+        function updateProgress() {
+            const filledFields = Array.from(form.querySelectorAll('input[required], select[required]'))
+                .filter(field => field.value !== '').length;
+            
+            const percentage = Math.round((filledFields / totalFields) * 100);
+            progressBar.style.width = percentage + '%';
+            progressBar.setAttribute('aria-valuenow', percentage);
+            progressText.textContent = `${filledFields} of ${totalFields} questions completed`;
+        }
+
+        // Add event listeners to all form fields
+        form.querySelectorAll('input, select').forEach(field => {
+            field.addEventListener('change', updateProgress);
+            field.addEventListener('input', updateProgress);
+        });
+
+        // Form validation
+        form.addEventListener('submit', function(e) {
+            const requiredFields = form.querySelectorAll('input[required], select[required]');
+            let isValid = true;
+            
+            requiredFields.forEach(field => {
+                if (field.value === '') {
+                    isValid = false;
+                    field.style.borderColor = 'var(--danger-color)';
+                    field.style.boxShadow = '0 0 0 3px rgba(239, 68, 68, 0.1)';
+                } else {
+                    field.style.borderColor = 'var(--success-color)';
+                    field.style.boxShadow = '0 0 0 3px rgba(16, 185, 129, 0.1)';
+                }
+            });
+            
+            if (!isValid) {
+                e.preventDefault();
+                alert('Please fill in all required fields before submitting the assessment.');
+                // Scroll to first empty field
+                const firstEmpty = form.querySelector('input[required][value=""], select[required][value=""]');
+                if (firstEmpty) {
+                    firstEmpty.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    firstEmpty.focus();
+                }
+            }
+        });
+
+        // Number input validation
+        const numberInputs = form.querySelectorAll('input[type="number"]');
+        numberInputs.forEach(input => {
+            input.addEventListener('input', function() {
+                const min = parseInt(this.getAttribute('min'));
+                const max = parseInt(this.getAttribute('max'));
+                const value = parseInt(this.value);
+                
+                if (value < min) {
+                    this.value = min;
+                } else if (value > max) {
+                    this.value = max;
+                }
+            });
+        });
+
+        // Enhanced form field styling
+        form.querySelectorAll('input, select').forEach(field => {
+            field.addEventListener('focus', function() {
+                this.parentElement.style.transform = 'scale(1.02)';
+            });
+            
+            field.addEventListener('blur', function() {
+                this.parentElement.style.transform = 'scale(1)';
+            });
+        });
+
+        // Initialize progress
+        updateProgress();
+
+        // Smooth scroll for sections
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
